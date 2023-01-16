@@ -1,24 +1,74 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
+import { url } from '../../../Data/Url';
+import { useAuthContext } from '../../../Hooks/useAuthContext';
 
 export default function AddCity() {
-  const [newCity, setNewCity] = useState();
-  const [prov, setProv] = useState();
+  const { admin } = useAuthContext();
+  const [province, setCurProv] = useState([]);
+  const [save, setSave] = useState([]);
+  const [city, setCity] = useState();
+  const [province_id, setProvince_id] = useState();
+  const arr = [];
 
-  function changeProv(e) {
-    setProv(e.target.value);
-  }
+  useEffect(() => {
+    const dataFetchProvince = async () => {
+      const response = await fetch(`${url}/api/province/getAll`, {
+        headers: {
+          authorization: `Bearer ${admin.token}`,
+        },
+      });
+      const json = await response.json();
+
+      if (response.ok) {
+        setSave(json);
+      }
+      if (!response.ok) {
+      }
+    };
+    dataFetchProvince();
+  }, [admin.token]);
+
+  const addCity = async () => {
+    const response = await fetch(`${url}/api/city/post `, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${admin.token}`,
+      },
+      body: JSON.stringify({ city, province_id }),
+    });
+
+    if (response.ok) {
+      alert('Created');
+    }
+    if (!response.ok) {
+    }
+  };
+
+  const handelSubmit = async (e) => {
+    e.preventDefault();
+    console.log('City: ' + city + 'Province_uid: ' + province);
+    await addCity(city, province);
+  };
 
   return (
     <Container className="addcity">
-      <Form>
+      <Form id="addCity" onSubmit={handelSubmit}>
         <Form.Group>
           <Form.Label>SELECT PROVINCE *</Form.Label>
-          <Form.Select id="prov" size="md">
-            <option>Open This To Select Prov</option>
-            <option value="SFP">SFP</option>
-            <option value="Angeles">Angeles</option>
-            <option value="BACOLOR">BACOLOR</option>
+          <Form.Select
+            value={province_id}
+            onChange={(e) => setCurProv(e.target.value)}
+            size="sm"
+          >
+            {save.map((items, index) => {
+              return (
+                <option key={index} value={items._id}>
+                  {items.province}
+                </option>
+              );
+            })}
           </Form.Select>
         </Form.Group>
         <Form.Group>
@@ -26,13 +76,13 @@ export default function AddCity() {
           <Form.Control
             id="addcity"
             type="text"
-            onChange={(e) => setNewCity(e.target.value)}
-            value={newCity}
+            onChange={(e) => setCity(e.target.value)}
+            value={city}
             required
           ></Form.Control>
         </Form.Group>
         <div className="btn-center">
-          <Button type="submit">Add New Barangay</Button>
+          <Button type="submit">Add New City</Button>
         </div>
       </Form>
     </Container>

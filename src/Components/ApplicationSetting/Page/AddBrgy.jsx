@@ -1,24 +1,59 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
+import { url } from '../../../Data/Url';
+import { useAuthContext } from '../../../Hooks/useAuthContext';
 
 export default function AddBrgy() {
-  const [newBrgy, setNewBrgy] = useState();
-  const [city, setCity] = useState();
+  const { admin } = useAuthContext();
+  const [city, setCity] = useState([]);
+  const [city_id, setCityID] = useState();
+  const [barangay, setBarangay] = useState();
+
+  useEffect(() => {
+    const dataFetchCity = async () => {
+      const response = await fetch(`${url}/api/city/getAll`, {
+        headers: {
+          authorization: `Bearer ${admin.token}`,
+        },
+      });
+      const json = await response.json();
+
+      if (response.ok) {
+        setCity(json);
+      }
+      if (!response.ok) {
+      }
+    };
+    dataFetchCity();
+  }, [admin.token, admin]);
 
   function changeCity(e) {
     setCity(e.target.value);
   }
 
+  const handelSubmit = async (e) => {
+    e.preventDefault();
+    console.log();
+    //await addCity(city, province);
+  };
+
   return (
     <Container className="addBrgy">
-      <Form>
+      <Form id="addBrgy" onSubmit={handelSubmit}>
         <Form.Group>
           <Form.Label>SELECT CITY *</Form.Label>
-          <Form.Select id="city" size="md">
-            <option>Open This To Select City</option>
-            <option value="SFP">SFP</option>
-            <option value="Angeles">Angeles</option>
-            <option value="BACOLOR">BACOLOR</option>
+          <Form.Select
+            value={city_id}
+            onChange={(e) => setCityID(e.target.value)}
+            size="sm"
+          >
+            {city.map((items, index) => {
+              return (
+                <option key={index} value={items._id}>
+                  {items.city}
+                </option>
+              );
+            })}
           </Form.Select>
         </Form.Group>
         <Form.Group>
@@ -26,8 +61,8 @@ export default function AddBrgy() {
           <Form.Control
             id="addbrgy"
             type="text"
-            onChange={(e) => setNewBrgy(e.target.value)}
-            value={newBrgy}
+            onChange={(e) => setBarangay(e.target.value)}
+            value={barangay}
             required
           ></Form.Control>
         </Form.Group>

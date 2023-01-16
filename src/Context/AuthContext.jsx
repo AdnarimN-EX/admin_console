@@ -8,6 +8,10 @@ export const authReducer = (state, action) => {
       return {
         admin: action.payload,
       };
+    case 'CREATESUBADMIN':
+      return {
+        subAdmin: action.payload,
+      };
     case 'LOGINSUB':
       return {
         subAdmin: action.payload,

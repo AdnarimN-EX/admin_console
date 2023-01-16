@@ -5,6 +5,8 @@ import {
   Route,
   Routes,
 } from 'react-router-dom';
+import AddAdmin from './Components/AdminSetting/AddAdmin';
+import ViewAllAdmin from './Components/AdminSetting/ViewAllAdmin';
 import ApplicationSetting from './Components/ApplicationSetting/ApplicationSetting';
 //
 import LogIn from './Components/Door/Log_In/LogIn';
@@ -23,12 +25,19 @@ function App() {
       <main>
         <Routes>
           {!admin && <Route path="/" element={<LogIn />}></Route>}
+
           {admin && <Route path="/" element={<HomePage />}></Route>}
+
           {admin && (
             <Route path="/skilled" element={<SkilledWorkerPage />}></Route>
           )}
           {admin && (
             <Route path="/appsetting" element={<ApplicationSetting />}></Route>
+          )}
+          {admin && <Route path="/adminCreate" element={<AddAdmin />}></Route>}
+
+          {admin && (
+            <Route path="/viewAllAdmin" element={<ViewAllAdmin />}></Route>
           )}
         </Routes>
       </main>
