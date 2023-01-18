@@ -8,9 +8,10 @@ export default function AddCity() {
   const [province, setCurProv] = useState([]);
   const [save, setSave] = useState([]);
   const [city, setCity] = useState();
-  const [province_id, setProvince_id] = useState();
-  const arr = [];
+  const [cityName, setCityName] = useState([]);
+  const [province_id, setProvince_id] = useState('');
 
+  //get Provinces
   useEffect(() => {
     const dataFetchProvince = async () => {
       const response = await fetch(`${url}/api/province/getAll`, {
@@ -29,6 +30,26 @@ export default function AddCity() {
     dataFetchProvince();
   }, [admin.token]);
 
+  //to get all cities
+  useEffect(() => {
+    const dataFetchCurrentCities = async () => {
+      const response = await fetch(`${url}/api/city/getAll`, {
+        headers: {
+          authorization: `Bearer ${admin.token}`,
+        },
+      });
+      const json = await response.json();
+
+      if (response.ok) {
+        setCityName(json);
+      }
+      if (!response.ok) {
+      }
+    };
+    dataFetchCurrentCities();
+  }, [admin.token]);
+
+  //to add city
   const addCity = async () => {
     const response = await fetch(`${url}/api/city/post `, {
       method: 'POST',
@@ -48,8 +69,13 @@ export default function AddCity() {
 
   const handelSubmit = async (e) => {
     e.preventDefault();
-    console.log('City: ' + city + 'Province_uid: ' + province);
+    console.log('City: ' + city + 'Province_uid: ' + province_id);
     await addCity(city, province);
+  };
+
+  const handelCons = async (e) => {
+    e.preventDefault();
+    console.log('City: ' + city + 'Province_uid: ' + province_id);
   };
 
   return (
@@ -59,14 +85,17 @@ export default function AddCity() {
           <Form.Label>SELECT PROVINCE *</Form.Label>
           <Form.Select
             value={province_id}
-            onChange={(e) => setCurProv(e.target.value)}
+            onChange={(e) => setProvince_id(e.target.value)}
             size="sm"
           >
+            <option>Select Here</option>;
             {save.map((items, index) => {
               return (
-                <option key={index} value={items._id}>
-                  {items.province}
-                </option>
+                <>
+                  <option key={index} value={items._id}>
+                    {items.province}
+                  </option>
+                </>
               );
             })}
           </Form.Select>
@@ -84,6 +113,7 @@ export default function AddCity() {
         <div className="btn-center">
           <Button type="submit">Add New City</Button>
         </div>
+        <Button onClick={handelCons}>console log</Button>
       </Form>
     </Container>
   );

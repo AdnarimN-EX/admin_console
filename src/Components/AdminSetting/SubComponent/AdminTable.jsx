@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
 import { Button, Container, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import DeleteAdmin from '../DeleteAdmin';
 import EditAdmin from '../EditAdmin';
+import ViewOneAdmin from '../ViewOneAdmin';
 
 export default function AdminTable({ props }) {
   return (
@@ -23,15 +23,9 @@ export default function AdminTable({ props }) {
                 <td key={index}>{items.lname}</td>
                 <td key={index}>{items.fname}</td>
                 <td className="mr-auto">
-                  <Button variant="info" className="m-1">
-                    View
-                  </Button>
-                  <Button variant="warning" className="m-1">
-                    Update
-                  </Button>
-                  <Button variant="danger" className="m-1">
-                    Delete
-                  </Button>
+                  <ViewOneAdmin props={items}></ViewOneAdmin>
+                  <EditAdmin props={items}></EditAdmin>
+                  <DeleteAdmin props={items}></DeleteAdmin>
                 </td>
               </tr>
             );

@@ -8,11 +8,13 @@ export default function ViewAllAdmin() {
   const { admin } = useAuthContext();
   const [adminList, setAdminList] = useState([]);
 
+  const token = admin.token;
+
   useEffect(() => {
     const dataFetchAdmin = async () => {
       const response = await fetch(`${url}/api/admin/getAll/admin`, {
         headers: {
-          authorization: `Bearer ${admin.token}`,
+          authorization: `Bearer ${token}`,
         },
       });
       const json = await response.json();
@@ -20,13 +22,11 @@ export default function ViewAllAdmin() {
       if (response.ok) {
         setAdminList(json);
       } else {
-        console.log('NotClient');
+        console.log('Eror');
       }
     };
     dataFetchAdmin();
-  }, [admin.token]);
-
-  console.log(adminList);
+  }, [adminList]);
 
   return (
     <Container>

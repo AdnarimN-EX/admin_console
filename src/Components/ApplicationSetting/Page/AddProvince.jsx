@@ -80,7 +80,7 @@ export default function AddProvince() {
         </div>
       </Container>
       <Container className="text-center">
-        <h3>Current Skills</h3>
+        <h3>Current Provinces</h3>
         <Table striped bordered hover variant="dark">
           <tbody>
             <tr>

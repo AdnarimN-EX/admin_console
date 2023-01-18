@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { url } from '../../Data/Url';
 import { useAuthContext } from '../../Hooks/useAuthContext';
 
-export default function EditAdmin(props) {
+export default function DeleteAdmin(props) {
   const { admin } = useAuthContext();
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
+
+  const handleDelete = (e) => {
+    deleteAdmin();
+    handleClose();
+  };
   const handleShow = () => setShow(true);
 
-  const updateAdmin = async () => {
+  const deleteAdmin = async () => {
     const response = await fetch(
       `${url}/api/admin/delete/adminInfo/${props.props._id}`,
       {
@@ -35,23 +39,21 @@ export default function EditAdmin(props) {
 
   return (
     <>
-      <Button variant="warning" onClick={handleShow}>
-        Update
+      <Button variant="danger" onClick={handleShow}>
+        DELETE
       </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit Admin</Modal.Title>
+          <Modal.Title>Delete</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <Form></Form>
-        </Modal.Body>
+        <Modal.Body>Delete this Admin?</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
+          <Button variant="danger" onClick={handleDelete}>
+            CONFIRM
           </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
+          <Button variant="secondary" onClick={handleClose}>
+            Cancel
           </Button>
         </Modal.Footer>
       </Modal>
