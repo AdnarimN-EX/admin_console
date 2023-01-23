@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { url } from '../../Data/Url';
 import { useAuthContext } from '../../Hooks/useAuthContext';
 import { useSubAdminSignUp } from '../../Hooks/useSubAdminSignUp';
@@ -12,8 +12,12 @@ export default function AddAdmin() {
   const [mname, setMName] = useState('');
   const [lname, setLname] = useState('');
   const [contact, setCon] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState();
 
   const addAdmin = async () => {
+    setIsLoading(true);
+    setError('');
     const response = await fetch(`${url}/api/admin/signup `, {
       method: 'POST',
       headers: {
@@ -30,13 +34,26 @@ export default function AddAdmin() {
       }),
     });
 
+    const json = await response.json();
+
     if (response.ok) {
       alert('Created');
+      setIsLoading(false);
     }
     if (!response.ok) {
-      alert('Fail');
+      setError(json.error);
+      setIsLoading(false);
     }
   };
+
+  function LoadingIndicate() {
+    if (isLoading === true)
+      return (
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      );
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,6 +61,8 @@ export default function AddAdmin() {
 
     await addAdmin(username, password, fname, mname, lname, contact);
   };
+
+  console.log(isLoading);
 
   return (
     <Container style={{ width: 800, paddingTop: 100 }}>
@@ -88,7 +107,7 @@ export default function AddAdmin() {
             <Form.Label>Last Name *</Form.Label>
             <Form.Control
               type="text"
-              id="newFname"
+              id="newLname"
               value={lname}
               onChange={(e) => setLname(e.target.value)}
             ></Form.Control>
@@ -114,7 +133,13 @@ export default function AddAdmin() {
           </Form.Group>
         </Row>
         <div className="btn-center">
-          <Button type="submit">Create</Button>
+          <div className="text-center">
+            <Button type="submit">Create</Button>
+          </div>
+          <div className="text-center">
+            {error}
+            {isLoading ? LoadingIndicate(isLoading) : LoadingIndicate(false)}
+          </div>
         </div>
       </Form>
     </Container>

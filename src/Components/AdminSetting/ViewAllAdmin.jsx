@@ -26,7 +26,7 @@ export default function ViewAllAdmin() {
       }
     };
     dataFetchAdmin();
-  }, [adminList]);
+  }, [token]);
 
   return (
     <Container>

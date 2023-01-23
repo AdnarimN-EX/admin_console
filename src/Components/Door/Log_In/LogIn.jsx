@@ -8,7 +8,6 @@ export default function LogIn() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { adminLogin, isLoading, errors } = useAdminLogin();
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

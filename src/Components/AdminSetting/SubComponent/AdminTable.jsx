@@ -1,4 +1,5 @@
-import { Button, Container, Table } from 'react-bootstrap';
+import { Container, Table } from 'react-bootstrap';
+import AddAdminRole from '../../AdminRoleSetting/AddAdminRole';
 import DeleteAdmin from '../DeleteAdmin';
 import EditAdmin from '../EditAdmin';
 import ViewOneAdmin from '../ViewOneAdmin';
@@ -24,6 +25,7 @@ export default function AdminTable({ props }) {
                 <td key={index}>{items.fname}</td>
                 <td className="mr-auto">
                   <ViewOneAdmin props={items}></ViewOneAdmin>
+                  <AddAdminRole props={items}></AddAdminRole>
                   <EditAdmin props={items}></EditAdmin>
                   <DeleteAdmin props={items}></DeleteAdmin>
                 </td>

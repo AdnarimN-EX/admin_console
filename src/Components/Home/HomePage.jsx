@@ -46,7 +46,7 @@ export default function HomePage() {
                     <Card.Header>KASAW-APP Settings</Card.Header>
                     <Card.Body>
                       <Card.Title>Special title treatment</Card.Title>
-                      <Card.Text>Change Settings</Card.Text>
+                      <Card.Text>Change Options Settings</Card.Text>
                       <Button variant="primary" as={Link} to="/appsetting">
                         Settings
                       </Button>
@@ -58,12 +58,21 @@ export default function HomePage() {
                     <Card.Header>KASAW-APP Add Sub Admin</Card.Header>
                     <Card.Body>
                       <Card.Title>Special title treatment</Card.Title>
-                      <Card.Text>
-                        With supporting text below as a natural lead-in to
-                        additional content.
-                      </Card.Text>
+                      <Card.Text>Add New Admins.</Card.Text>
                       <Button variant="primary" as={Link} to="/adminCreate">
-                        New Admins
+                        Sign Up
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                </Col>
+                <Col>
+                  <Card>
+                    <Card.Header>KASAW-APP Role Setting</Card.Header>
+                    <Card.Body>
+                      <Card.Title>Special title treatment</Card.Title>
+                      <Card.Text>Change Role Setting of Admin.</Card.Text>
+                      <Button variant="primary" as={Link} to="/viewAllAdmin">
+                        Role Setting
                       </Button>
                     </Card.Body>
                   </Card>

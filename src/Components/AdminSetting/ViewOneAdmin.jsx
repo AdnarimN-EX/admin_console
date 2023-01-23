@@ -9,6 +9,8 @@ export default function ViewOneAdmin(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  console.log(props.props.lname);
+
   return (
     <>
       <Button variant="primary" onClick={handleShow}>

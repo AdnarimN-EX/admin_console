@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Button, ButtonGroup, ButtonToolbar, Container } from 'react-bootstrap';
 import './app.css';
-import AddBrgy from './Page/AddBrgy';
-import AddCity from './Page/AddCity';
-import AddProvince from './Page/AddProvince';
-import AddSkill from './Page/AddSkill';
+import AddBrgy from './Page/Barangay/AddBrgy';
+import AddCity from './Page/City/AddCity';
+import AddProvince from './Page/Province/AddProvince';
+import AddSkill from './Page/Skills/AddSkill';
 
 export default function ApplicationSetting() {
   const [opt, setOpt] = useState();
