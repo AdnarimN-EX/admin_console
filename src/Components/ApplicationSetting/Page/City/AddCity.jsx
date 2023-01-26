@@ -9,7 +9,7 @@ export default function AddCity() {
   const { admin } = useAuthContext();
   const [province, setCurProv] = useState([]);
   const [save, setSave] = useState([]);
-  const [city, setCity] = useState();
+  const [city, setCity] = useState('');
   const [cityName, setCityName] = useState([]);
   const [province_id, setProvince_id] = useState('');
 
@@ -47,6 +47,7 @@ export default function AddCity() {
 
       if (response.ok) {
         setCityName(json);
+        console.log(json);
       }
       if (!response.ok) {
       }
@@ -90,7 +91,7 @@ export default function AddCity() {
                 onChange={(e) => setProvince_id(e.target.value)}
                 size="sm"
               >
-                <option>Select Here</option>;
+                <option>Sample</option>
                 {save.map((items, index) => {
                   return (
                     <>
