@@ -3,7 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 import { url } from '../../../../Data/Url';
 import { useAuthContext } from '../../../../Hooks/useAuthContext';
 
-export default function DeleteCity(props) {
+export default function DeleteCity({ props }) {
   const { admin } = useAuthContext();
   const [show, setShow] = useState(false);
 
@@ -16,8 +16,8 @@ export default function DeleteCity(props) {
   const handleShow = () => setShow(true);
 
   const deleteCity = async () => {
-    const response = await fetch(`${url}/api/city/delete/${props.props._id}`, {
-      method: 'DELETE',
+    const response = await fetch(`${url}/api/city/delete/${props._id}`, {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${admin.token}`,
@@ -26,7 +26,7 @@ export default function DeleteCity(props) {
     });
 
     if (response.ok) {
-      alert('Deleted');
+      alert('DELETED');
     }
     if (!response.ok) {
       alert('Fail');

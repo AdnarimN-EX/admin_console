@@ -19,7 +19,7 @@ export default function DeleteProvince(props) {
     const response = await fetch(
       `${url}/api/province/delete/${props.props._id}`,
       {
-        method: 'DELETE',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${admin.token}`,
@@ -29,7 +29,7 @@ export default function DeleteProvince(props) {
     );
 
     if (response.ok) {
-      alert('Created');
+      alert('DELETED');
     }
     if (!response.ok) {
       alert('Fail');

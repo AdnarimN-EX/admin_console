@@ -2,18 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { url } from '../../../../Data/Url';
 import { useAuthContext } from '../../../../Hooks/useAuthContext';
-import DeleteSkill from '../Skills/DeleteSkill';
-import EditSkill from '../Skills/EditSkill';
-import DeleteBrgy from './DeleteBrgy';
-import EditBrgy from './EditBrgy';
+import ViewAllBrgy from './ViewAllBrgy';
 
 export default function AddBrgy() {
   const { admin } = useAuthContext();
   const [city, setCity] = useState([]);
-  const [city_id, setCityID] = useState('');
+  const [city_id, setCityID] = useState('Select');
   const [barangay, setBarangay] = useState('');
-  const [barangayList, setBarangayList] = useState([]);
   const [error, setError] = useState('');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    setIsButtonDisabled(city_id === 'Select');
+  }, [city_id]);
+
+  console.log(city_id);
 
   useEffect(() => {
     const dataFetchCity = async () => {
@@ -32,29 +35,7 @@ export default function AddBrgy() {
       }
     };
     dataFetchCity();
-  }, [admin.token]);
-
-  useEffect(() => {
-    const dataFetchBrgyList = async () => {
-      const response = await fetch(
-        `${url}/api/barangay/getAll/cityBarangay/${city_id}`,
-        {
-          headers: {
-            authorization: `Bearer ${admin.token}`,
-          },
-        }
-      );
-      const json = await response.json();
-
-      if (response.ok) {
-        setBarangayList(json);
-      }
-      if (!response.ok) {
-        setError(json.messg);
-      }
-    };
-    dataFetchBrgyList();
-  }, [admin.token, city_id, barangay]);
+  }, [admin.token, barangay]);
 
   const addBrgy = async () => {
     const response = await fetch(`${url}/api/barangay/post`, {
@@ -66,11 +47,13 @@ export default function AddBrgy() {
       body: JSON.stringify({ barangay, city_id }),
     });
 
+    const json = await response.json();
     if (response.ok) {
       alert('Created');
       setBarangay('');
     }
     if (!response.ok) {
+      setError(json.error);
     }
   };
 
@@ -80,19 +63,18 @@ export default function AddBrgy() {
     await addBrgy(barangay, city_id);
   };
 
-  console.log(barangayList);
-
   return (
     <>
       <Container className="addBrgy">
         <Form id="addBrgy" onSubmit={handelSubmit}>
           <Form.Group>
-            <Form.Label>SELECT CITY *</Form.Label>
+            <Form.Label>Select City *</Form.Label>
             <Form.Select
               value={city_id}
               onChange={(e) => setCityID(e.target.value)}
               size="sm"
             >
+              <option>Select</option>
               {city.map((items, index) => {
                 return (
                   <option key={index} value={items._id}>
@@ -113,29 +95,15 @@ export default function AddBrgy() {
             ></Form.Control>
           </Form.Group>
           <div className="text-center">
-            <Button type="submit">Add New Barangay</Button>
+            <Button type="submit" disabled={isButtonDisabled}>
+              Add New Barangay
+            </Button>
+            {<span className="text-danger">{error}</span>}
           </div>
         </Form>
       </Container>
-      <Container className="text-center">
-        <h2>List of Barangay</h2>
-        {<h2 className="danger">{error}</h2>}
-        <Row>
-          {barangayList.map((items, index) => (
-            <Col sm={6} md={6} lg={6} className="mb-3">
-              <Card className="text-center">
-                <Card.Title>{items.barangay}</Card.Title>
-                <Card.Body>
-                  <p>City: {items.city_id.city}</p>
-                  <div className="mr-auto">
-                    <EditBrgy props={items}></EditBrgy>
-                    <DeleteBrgy props={items}></DeleteBrgy>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
+      <Container>
+        <ViewAllBrgy></ViewAllBrgy>
       </Container>
     </>
   );

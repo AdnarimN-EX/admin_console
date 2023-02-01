@@ -49,11 +49,13 @@ export default function AddProvince() {
       },
       body: JSON.stringify({ province }),
     });
-
+    const json = await response.json();
     if (response.ok) {
       alert('Created');
+      setError('');
     }
     if (!response.ok) {
+      setError(json.error);
     }
   };
 
@@ -81,6 +83,7 @@ export default function AddProvince() {
             <div className="btn-center">
               <Button type="submit">Add New Skill</Button>
             </div>
+            {<span className="text-danger">{error}</span>}
           </Form>
         </Container>
       </Container>

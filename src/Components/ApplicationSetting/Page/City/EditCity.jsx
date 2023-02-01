@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Container, Modal, Form } from 'react-bootstrap';
 import { url } from '../../../../Data/Url';
 import { useAuthContext } from '../../../../Hooks/useAuthContext';
 
 export default function EditCity({ props }) {
   const { admin } = useAuthContext();
-  const [city, setCity] = useState('');
-  const [prov, setProv] = useState(props.province_id._id);
+  const [city, setCity] = useState(props.city);
+  const [provSel, setProvSel] = useState([]);
+  const [province_id, setProv] = useState(props.province_id._id);
   const [error, setError] = useState('');
 
   const [show, setShow] = useState(false);
@@ -20,25 +21,42 @@ export default function EditCity({ props }) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${admin.token}`,
       },
-      body: JSON.stringify({ city, prov }),
+      body: JSON.stringify({ city, province_id }),
     });
 
     const json = await response.json();
 
     if (response.ok) {
       alert('Updated');
-      setCity('');
     }
     if (!response.ok) {
       alert('Fail');
-      setError(json.messg);
+      setError(json.message);
     }
   };
 
   const handelSubmit = async (e) => {
     e.preventDefault();
-    await updateCity(city, prov);
+    await updateCity(city, province_id);
   };
+
+  useEffect(() => {
+    const dataFetchAdmin = async () => {
+      const response = await fetch(`${url}/api/province/getAll`, {
+        headers: {
+          authorization: `Bearer ${admin.token}`,
+        },
+      });
+      const json = await response.json();
+
+      if (response.ok) {
+        setProvSel(json);
+      } else {
+        setError(json.messg);
+      }
+    };
+    dataFetchAdmin();
+  }, [admin.token]);
 
   return (
     <>
@@ -61,8 +79,20 @@ export default function EditCity({ props }) {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>PROV</Form.Label>
-              <Form.Control type="text" value={prov} />
+              <Form.Label>Province</Form.Label>
+              <Form.Select
+                id="provID"
+                value={province_id}
+                onChange={(e) => setProv(e.target.value)}
+              >
+                {provSel.map((items, index) => {
+                  return (
+                    <option key={index} value={items._id}>
+                      {items.province}
+                    </option>
+                  );
+                })}
+              </Form.Select>
             </Form.Group>
             <Container className="text-center">
               <Button variant="secondary" onClick={handleClose}>

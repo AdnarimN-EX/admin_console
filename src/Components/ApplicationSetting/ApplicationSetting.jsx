@@ -3,6 +3,7 @@ import { Button, ButtonGroup, ButtonToolbar, Container } from 'react-bootstrap';
 import './app.css';
 import AddBrgy from './Page/Barangay/AddBrgy';
 import AddCity from './Page/City/AddCity';
+import ViewAllCity from './Page/City/ViewAllCity';
 import AddProvince from './Page/Province/AddProvince';
 import AddSkill from './Page/Skills/AddSkill';
 
@@ -53,7 +54,7 @@ export default function ApplicationSetting() {
       <Container>
         {showSkills && <AddSkill />}
         {showPro && <AddProvince />}
-        {showCity && <AddCity />}
+        {showCity && <ViewAllCity />}
         {showBrgy && <AddBrgy />}
       </Container>
     </>

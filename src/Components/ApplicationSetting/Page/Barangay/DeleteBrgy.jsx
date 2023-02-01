@@ -19,7 +19,7 @@ export default function DeleteBrgy(props) {
     const response = await fetch(
       `${url}/api/barangay/delete/${props.props._id}`,
       {
-        method: 'DELETE',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${admin.token}`,
