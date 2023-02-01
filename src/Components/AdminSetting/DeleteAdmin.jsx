@@ -30,7 +30,7 @@ export default function DeleteAdmin(props) {
     );
 
     if (response.ok) {
-      alert('Created');
+      alert('Delete');
     }
     if (!response.ok) {
       alert('Fail');

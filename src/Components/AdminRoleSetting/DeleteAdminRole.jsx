@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
-import { Button, Modal } from 'react-bootstrap';
-import { url } from '../../../../Data/Url';
-import { useAuthContext } from '../../../../Hooks/useAuthContext';
+import { Button, Form, Modal } from 'react-bootstrap';
+import { url } from '../../Data/Url';
+import { useAuthContext } from '../../Hooks/useAuthContext';
 
-export default function DeleteSkill(props) {
+export default function DeleteAdminRole(props) {
   const { admin } = useAuthContext();
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
+  const [error, setError] = useState('');
 
   const handleDelete = (e) => {
-    deleteAdmin();
-    handleClose();
+    deleteAdminRole();
   };
   const handleShow = () => setShow(true);
 
-  const deleteAdmin = async () => {
+  const deleteAdminRole = async () => {
     const response = await fetch(
-      `${url}/api/adminSkill/delete/${props.props._id}`,
+      `${url}/api/roleCapability/delete/${props.props._id}`,
       {
         method: 'DELETE',
         headers: {
@@ -27,18 +26,19 @@ export default function DeleteSkill(props) {
         body: JSON.stringify({}),
       }
     );
+    const json = await response.json();
 
     if (response.ok) {
-      alert('Deleted');
+      alert('Delete');
     }
     if (!response.ok) {
-      alert('Fail');
+      setError(json.error);
     }
   };
 
   return (
     <>
-      <Button variant="danger" onClick={handleShow}>
+      <Button variant="outline-danger" onClick={handleShow}>
         DELETE
       </Button>
 
@@ -46,7 +46,7 @@ export default function DeleteSkill(props) {
         <Modal.Header closeButton>
           <Modal.Title>Delete</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Delete this Skill?</Modal.Body>
+        <Modal.Body>Delete this Admin?</Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={handleDelete}>
             CONFIRM
@@ -54,6 +54,7 @@ export default function DeleteSkill(props) {
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
+          {<span className="text-danger">{error}</span>}
         </Modal.Footer>
       </Modal>
     </>

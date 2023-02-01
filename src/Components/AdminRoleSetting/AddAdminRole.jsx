@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Button, Container, Form, Spinner } from 'react-bootstrap';
 import { url } from '../../Data/Url';
 import { useAuthContext } from '../../Hooks/useAuthContext';
 
-export default function AddAdminRole(props) {
+export default function AddAdminRole() {
   const { admin } = useAuthContext();
   const [role, setRole] = useState([]);
   const [cap, setCap] = useState([]);
-  const [role_id, setSelectedRole] = useState('');
-  const [capability_id, setSelectedCap] = useState('');
-  const [adminInfo_id, setadminInfo_id] = useState(props.props._id);
+  const [adminUserName, setAdminUsername] = useState([]);
 
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [role_id, setRoleid] = useState('');
+  const [capability_id, setCopability] = useState('');
+  const [adminInfo_id, setAdminInfo_id] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState();
 
   //role
   useEffect(() => {
@@ -33,7 +33,6 @@ export default function AddAdminRole(props) {
     };
     dataFetchRole();
   }, []);
-
   //capabi
   useEffect(() => {
     const dataFetchCap = async () => {
@@ -52,104 +51,130 @@ export default function AddAdminRole(props) {
     };
     dataFetchCap();
   }, []);
+  //username
+  useEffect(() => {
+    const dataFetchUser = async () => {
+      const response = await fetch(`${url}/api/admin/getAll/admin`, {
+        headers: {
+          authorization: `Bearer ${admin.token}`,
+        },
+      });
+      const json = await response.json();
 
-  //to add city
-  const addRoleCap = async () => {
+      if (response.ok) {
+        setAdminUsername(json);
+      } else {
+        console.log('Eror');
+      }
+    };
+    dataFetchUser();
+  }, []);
+
+  const addAdminRole = async () => {
+    setIsLoading(true);
+    setError('');
     const response = await fetch(`${url}/api/roleCapability/post`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${admin.token}`,
       },
-      body: JSON.stringify({ role_id, capability_id, adminInfo_id }),
+      body: JSON.stringify({
+        role_id,
+        capability_id,
+        adminInfo_id,
+      }),
     });
+
+    const json = await response.json();
 
     if (response.ok) {
       alert('Created');
+      setIsLoading(false);
     }
     if (!response.ok) {
+      setError(json.error);
+      setIsLoading(false);
     }
   };
 
-  const handelSubmit = async (e) => {
+  function LoadingIndicate() {
+    if (isLoading === true)
+      return (
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      );
+  }
+  const test = (e) => {
+    console.log(role_id, capability_id, adminInfo_id);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(
-      'CAP: ' + capability_id + 'ROLE: ' + role_id + 'id' + adminInfo_id
-    );
-    await addRoleCap(role_id, capability_id, props.props._id);
+    console.log(role_id, capability_id, adminInfo_id);
+
+    await addAdminRole(role_id, capability_id, adminInfo_id);
   };
 
   return (
-    <>
-      <Button variant="success" onClick={handleShow}>
-        Add Admin Role
-      </Button>
+    <Container>
+      <Form onSubmit={handleSubmit}>
+        <Form.Label>Select Role</Form.Label>
+        <Form.Select
+          id="role"
+          value={role_id}
+          onChange={(e) => setRoleid(e.target.value)}
+        >
+          <option>Select</option>
+          {role.map((items, index) => {
+            return (
+              <option key={index} value={items._id}>
+                {items.roleName}
+              </option>
+            );
+          })}
+        </Form.Select>
 
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add New Admin Role</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handelSubmit}>
-            <Form.Group>
-              <Form.Label>SELECT ROLE NAME *</Form.Label>
-              <Form.Select
-                id="role"
-                value={role_id}
-                onChange={(e) => setSelectedRole(e.target.value)}
-                size="sm"
-              >
-                <option>Select Here</option>;
-                {role.map((items, index) => {
-                  return (
-                    <>
-                      <option key={index} value={items._id}>
-                        {items.roleName}
-                      </option>
-                    </>
-                  );
-                })}
-              </Form.Select>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>SELECT CAPABILITY *</Form.Label>
-              <Form.Select
-                id="cap"
-                value={capability_id}
-                onChange={(e) => setSelectedCap(e.target.value)}
-                size="sm"
-              >
-                <option>Select Here</option>;
-                {cap.map((items, index) => {
-                  return (
-                    <>
-                      <option key={index} value={items._id}>
-                        {items.capabilityName}
-                      </option>
-                    </>
-                  );
-                })}
-              </Form.Select>
-            </Form.Group>
-            <Form.Group>
-              <Form.Control
-                id="adminId"
-                type="text"
-                value={props.props._id}
-                hidden
-              ></Form.Control>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" type="submit" onClick={handelSubmit}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
+        <Form.Label>Select Capability</Form.Label>
+        <Form.Select
+          id="capability"
+          value={capability_id}
+          onChange={(e) => setCopability(e.target.value)}
+        >
+          <option>Select</option>
+          {cap.map((items, index) => {
+            return (
+              <option key={index} value={items._id}>
+                {items.capabilityName}
+              </option>
+            );
+          })}
+        </Form.Select>
+
+        <Form.Label>Select Admin</Form.Label>
+        <Form.Select
+          id="id"
+          value={adminInfo_id}
+          onChange={(e) => setAdminInfo_id(e.target.value)}
+        >
+          <option>Select</option>
+          {adminUserName.map((items, index) => {
+            return (
+              <option key={index} value={items._id}>
+                {items.username}
+              </option>
+            );
+          })}
+        </Form.Select>
+        <div className="text-center">
+          <Button type="submit">Add Role</Button>
+        </div>
+        <div className="text-center">
+          {error}
+          {isLoading ? LoadingIndicate(isLoading) : LoadingIndicate(false)}
+        </div>
+      </Form>
+    </Container>
   );
 }

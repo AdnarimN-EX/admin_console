@@ -1,44 +1,41 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import { url } from '../../../../Data/Url';
-import { useAuthContext } from '../../../../Hooks/useAuthContext';
+import { url } from '../../Data/Url';
+import { useAuthContext } from '../../Hooks/useAuthContext';
 
-export default function DeleteSkill(props) {
+export default function DeleteRoleName({ props }) {
   const { admin } = useAuthContext();
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
+  const [error, setError] = useState('');
 
   const handleDelete = (e) => {
-    deleteAdmin();
-    handleClose();
+    deleteAdminRoleName();
   };
   const handleShow = () => setShow(true);
 
-  const deleteAdmin = async () => {
-    const response = await fetch(
-      `${url}/api/adminSkill/delete/${props.props._id}`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${admin.token}`,
-        },
-        body: JSON.stringify({}),
-      }
-    );
+  const deleteAdminRoleName = async () => {
+    const response = await fetch(`${url}/api/role/delete/${props._id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${admin.token}`,
+      },
+      body: JSON.stringify({}),
+    });
+    const json = await response.json();
 
     if (response.ok) {
-      alert('Deleted');
+      alert('Delete');
     }
     if (!response.ok) {
-      alert('Fail');
+      setError(json.error);
     }
   };
 
   return (
     <>
-      <Button variant="danger" onClick={handleShow}>
+      <Button variant="outline-danger" onClick={handleShow}>
         DELETE
       </Button>
 
@@ -46,7 +43,7 @@ export default function DeleteSkill(props) {
         <Modal.Header closeButton>
           <Modal.Title>Delete</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Delete this Skill?</Modal.Body>
+        <Modal.Body>Delete this Admin Role?</Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={handleDelete}>
             CONFIRM
@@ -54,6 +51,7 @@ export default function DeleteSkill(props) {
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
+          {<span className="text-danger">{error}</span>}
         </Modal.Footer>
       </Modal>
     </>

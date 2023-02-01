@@ -11,8 +11,6 @@ import {
 } from 'react-bootstrap';
 import { url } from '../../../../Data/Url';
 import { useAuthContext } from '../../../../Hooks/useAuthContext';
-import DeleteSkill from '../Skills/DeleteSkill';
-import EditSkill from '../Skills/EditSkill';
 import DeleteProvince from './DeleteProvince';
 import EditProvince from './EditProvince';
 
@@ -20,6 +18,8 @@ export default function AddProvince() {
   const { admin } = useAuthContext();
   const [curPro, setCurProv] = useState([]);
   const [province, setProvince] = useState();
+
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const dataFetchSkillList = async () => {
@@ -34,6 +34,7 @@ export default function AddProvince() {
         setCurProv(json);
       }
       if (!response.ok) {
+        setError(json.messg);
       }
     };
     dataFetchSkillList();
@@ -85,6 +86,8 @@ export default function AddProvince() {
       </Container>
       <Container className="text-center">
         <h2>All Provinces</h2>
+
+        {<h2 className="danger">{error}</h2>}
         <Row>
           {curPro.map((items) => (
             <Col sm={6} md={6} lg={6} className="mb-3">

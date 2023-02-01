@@ -3,6 +3,7 @@ import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { url } from '../../../../Data/Url';
 import { useAuthContext } from '../../../../Hooks/useAuthContext';
 import DeleteSkill from '../Skills/DeleteSkill';
+import DeleteCity from './DeleteCity';
 import EditCity from './EditCity';
 
 export default function AddCity() {
@@ -12,6 +13,8 @@ export default function AddCity() {
   const [city, setCity] = useState('');
   const [cityName, setCityName] = useState([]);
   const [province_id, setProvince_id] = useState('');
+
+  const [error, setError] = useState('');
 
   //get Provinces For Dropdown
   useEffect(() => {
@@ -27,6 +30,7 @@ export default function AddCity() {
         setSave(json);
       }
       if (!response.ok) {
+        setError(json.messg);
       }
     };
     dataFetchProvince();
@@ -47,9 +51,9 @@ export default function AddCity() {
 
       if (response.ok) {
         setCityName(json);
-        console.log(json);
       }
       if (!response.ok) {
+        setError(json.messg);
       }
     };
     dataFetchCurrentCities();
@@ -91,7 +95,6 @@ export default function AddCity() {
                 onChange={(e) => setProvince_id(e.target.value)}
                 size="sm"
               >
-                <option>Sample</option>
                 {save.map((items, index) => {
                   return (
                     <>
@@ -121,16 +124,18 @@ export default function AddCity() {
       </Container>
       <Container className="text-center">
         <h2>List of Cities</h2>
+        {<h2 className="danger">{error}</h2>}
         <Row>
-          {cityName.map((items, index) => (
+          {cityName.map((items) => (
             <Col sm={6} md={6} lg={6} className="mb-3">
               <Card className="text-center">
                 <Card.Title>{items.city}</Card.Title>
                 <Card.Body>
                   <p>Province: {items.province_id.province}</p>
+                  <p>Province: {items.province_id._id}</p>
                   <div className="mr-auto">
                     <EditCity props={items}></EditCity>
-                    <DeleteSkill props={items}></DeleteSkill>
+                    <DeleteCity props={items}></DeleteCity>
                   </div>
                 </Card.Body>
               </Card>

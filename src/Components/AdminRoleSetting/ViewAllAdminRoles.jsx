@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { url } from '../../Data/Url';
 import { useAuthContext } from '../../Hooks/useAuthContext';
-import SkilledWorkerTable from './SubComponent/SkilledWorkerTable';
+import AdminRoleTable from './SubComponent/AdminRoleTable';
 
-export default function ViewAllSkilled() {
+export default function ViewAllAdminRoles() {
   const { admin } = useAuthContext();
-  const [skilledList, setSkilledList] = useState([]);
+  const [adminList, setAdminList] = useState([]);
   const [error, setError] = useState('');
 
   const token = admin.token;
 
   useEffect(() => {
     const dataFetchAdmin = async () => {
-      const response = await fetch(`${url}/api/admin/getAll/Skilled`, {
+      const response = await fetch(`${url}/api/roleCapability/getAll`, {
         headers: {
           authorization: `Bearer ${token}`,
         },
@@ -21,7 +21,7 @@ export default function ViewAllSkilled() {
       const json = await response.json();
 
       if (response.ok) {
-        setSkilledList(json);
+        setAdminList(json);
       } else {
         setError(json.messg);
       }
@@ -30,9 +30,12 @@ export default function ViewAllSkilled() {
   }, [token]);
   return (
     <Container>
-      <h1>Skilled Worker List</h1>
+      <h1>Admin List</h1>
       {<p>{error}</p>}
-      <SkilledWorkerTable props={skilledList} />
+
+      <div className="text-center">
+        <AdminRoleTable props={adminList} />
+      </div>
     </Container>
   );
 }

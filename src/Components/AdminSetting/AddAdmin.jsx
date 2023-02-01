@@ -66,7 +66,7 @@ export default function AddAdmin() {
 
   return (
     <Container style={{ width: 800, paddingTop: 100 }}>
-      <h3>Add Admin</h3>
+      <h3>Sign Up Admin</h3>
       <Form id="add-admin" onSubmit={handleSubmit}>
         <Row>
           <Form.Group className="mb-2">
@@ -99,7 +99,6 @@ export default function AddAdmin() {
                 id="newMname"
                 value={mname}
                 onChange={(e) => setMName(e.target.value)}
-                required
               ></Form.Control>
             </Form.Group>
           </Col>

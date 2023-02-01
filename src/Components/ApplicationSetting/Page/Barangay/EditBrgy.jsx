@@ -1,62 +1,61 @@
 import React, { useState } from 'react';
-import { Button, Container, Form, Modal } from 'react-bootstrap';
+import { Button, Container, Modal, Form } from 'react-bootstrap';
 import { url } from '../../../../Data/Url';
 import { useAuthContext } from '../../../../Hooks/useAuthContext';
 
-export default function EditProvince(props) {
+export default function EditBrgy(props) {
   const { admin } = useAuthContext();
-  const [province, setProvince] = useState(props.props.province);
-  const [error, setError] = useState('');
+  const [barangay, setBarangay] = useState('');
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const updateProvince = async () => {
+  const updateBrgy = async () => {
     const response = await fetch(
-      `${url}/api/province/update/${props.props._id}`,
+      `${url}/api/barangay/update/${props.props._id}`,
       {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${admin.token}`,
         },
-        body: JSON.stringify({ province }),
+        body: JSON.stringify({ barangay }),
       }
     );
-    const json = await response.json();
 
     if (response.ok) {
       alert('Updated');
     }
     if (!response.ok) {
       alert('Fail');
-      setError(json.messg);
     }
   };
 
   const handelSubmit = async (e) => {
     e.preventDefault();
-    console.log(province);
-    await updateProvince(province);
+    console.log(barangay);
+    await updateBrgy(barangay);
   };
+
   return (
     <>
       <Button variant="warning" onClick={handleShow}>
         Update
       </Button>
+
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit Province</Modal.Title>
+          <Modal.Title>Edit Admin</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handelSubmit}>
             <Form.Group className="mb-3">
-              <Form.Label>Edit Province Name</Form.Label>
+              <Form.Label>Edit Brgy Name</Form.Label>
               <Form.Control
                 type="text"
-                value={province}
-                onChange={(e) => setProvince(e.target.value)}
+                value={barangay}
+                onChange={(e) => setBarangay(e.target.value)}
                 autoFocus
               />
             </Form.Group>
@@ -67,7 +66,6 @@ export default function EditProvince(props) {
               <Button type="submit" variant="primary">
                 Save Changes
               </Button>
-              <div>{<span className="text-danger">{error}</span>}</div>
             </Container>
           </Form>
         </Modal.Body>

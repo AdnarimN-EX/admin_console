@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import { url } from '../../../../Data/Url';
-import { useAuthContext } from '../../../../Hooks/useAuthContext';
+import { url } from '../../Data/Url';
+import { useAuthContext } from '../../Hooks/useAuthContext';
 
-export default function DeleteSkill(props) {
+export default function DeleteSkilledWorker({ props }) {
   const { admin } = useAuthContext();
   const [show, setShow] = useState(false);
 
@@ -17,7 +17,7 @@ export default function DeleteSkill(props) {
 
   const deleteAdmin = async () => {
     const response = await fetch(
-      `${url}/api/adminSkill/delete/${props.props._id}`,
+      `${url}/api/admin/delete/Skilled/${props._id}`,
       {
         method: 'DELETE',
         headers: {
@@ -29,7 +29,7 @@ export default function DeleteSkill(props) {
     );
 
     if (response.ok) {
-      alert('Deleted');
+      alert('Delete');
     }
     if (!response.ok) {
       alert('Fail');
@@ -46,7 +46,7 @@ export default function DeleteSkill(props) {
         <Modal.Header closeButton>
           <Modal.Title>Delete</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Delete this Skill?</Modal.Body>
+        <Modal.Body>Delete this Skilled Worker?</Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={handleDelete}>
             CONFIRM

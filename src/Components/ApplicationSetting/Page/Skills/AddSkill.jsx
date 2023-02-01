@@ -10,6 +10,8 @@ export default function AddSkill() {
   const [skill, setSkill] = useState();
   const [skillName, setSkillName] = useState([]);
 
+  const [error, setError] = useState('');
+
   //to get all cities
   useEffect(() => {
     const dataFetchSkills = async () => {
@@ -24,6 +26,7 @@ export default function AddSkill() {
         setSkillName(json);
       }
       if (!response.ok) {
+        setError(json.messg);
       }
     };
     dataFetchSkills();
@@ -38,6 +41,7 @@ export default function AddSkill() {
       },
       body: JSON.stringify({ skill }),
     });
+    const json = await response.json();
 
     if (response.ok) {
       alert('Created');
@@ -52,6 +56,8 @@ export default function AddSkill() {
     console.log(skill);
     await addSkill(skill);
   };
+
+  console.log(error);
 
   return (
     <>
@@ -75,6 +81,7 @@ export default function AddSkill() {
       </Container>
       <Container className="text-center">
         <h2>Skill Options</h2>
+        {<h2 className="danger">{error}</h2>}
 
         <Row>
           {skillName.map((items) => (

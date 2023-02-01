@@ -1,31 +1,29 @@
 import React, { useState } from 'react';
 import { Button, Container, Form, Modal } from 'react-bootstrap';
-import { url } from '../../../../Data/Url';
-import { useAuthContext } from '../../../../Hooks/useAuthContext';
+import { url } from '../../Data/Url';
+import { useAuthContext } from '../../Hooks/useAuthContext';
 
-export default function EditSkill(props) {
+export default function UpdateAdminRoleName({ props }) {
   const { admin } = useAuthContext();
-  const [skill, setSkill] = useState('');
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const updateSkill = async () => {
-    const response = await fetch(
-      `${url}/api/adminSkill/update/${props.props._id}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${admin.token}`,
-        },
-        body: JSON.stringify({ skill }),
-      }
-    );
+  const [roleName, setRoleName] = useState('');
+
+  const updateRoleName = async () => {
+    const response = await fetch(`${url}/api/role/update/${props._id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${admin.token}`,
+      },
+      body: JSON.stringify({ roleName }),
+    });
 
     if (response.ok) {
-      alert('Skill Updated');
+      alert('Updated');
     }
     if (!response.ok) {
       alert('Fail');
@@ -34,8 +32,7 @@ export default function EditSkill(props) {
 
   const handelSubmit = async (e) => {
     e.preventDefault();
-    console.log(skill);
-    await updateSkill(skill);
+    await updateRoleName(roleName);
   };
 
   return (
@@ -43,22 +40,19 @@ export default function EditSkill(props) {
       <Button variant="warning" onClick={handleShow}>
         Update
       </Button>
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit Admin</Modal.Title>
+          <Modal.Title>Edit Role Name</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handelSubmit}>
-            <Form.Group className="mb-3">
-              <Form.Label>Edit Skill Name</Form.Label>
-              <Form.Control
-                type="text"
-                value={skill}
-                onChange={(e) => setSkill(e.target.value)}
-                autoFocus
-              />
-            </Form.Group>
+            <Form.Label>ROLE NAME</Form.Label>
+            <Form.Control
+              id="roleName"
+              type="text"
+              value={roleName}
+              onChange={(e) => setRoleName(e.target.value)}
+            ></Form.Control>
             <Container className="text-center">
               <Button variant="secondary" onClick={handleClose}>
                 Close

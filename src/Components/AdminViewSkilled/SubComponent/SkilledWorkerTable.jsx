@@ -1,7 +1,12 @@
 import React from 'react';
-import { Container, Table } from 'react-bootstrap';
+import { Container, Row, Table } from 'react-bootstrap';
+import DeleteAdmin from '../../AdminSetting/DeleteAdmin';
+import ViewAllSkilledExp from '../../AdminViewSkilledExp/ViewAllSkilledExp';
+import DeleteSkilledWorker from '../DeleteSkilledWorker';
+import Verify from '../Verify';
+import ViewOneSkilled from '../ViewOneSkilled';
 
-export default function SkilledWorkerTable(props) {
+export default function SkilledWorkerTable({ props }) {
   return (
     <Container>
       <Table responsive sm>
@@ -20,7 +25,15 @@ export default function SkilledWorkerTable(props) {
                 <td key={index}>{items.username}</td>
                 <td key={index}>{items.lname}</td>
                 <td key={index}>{items.fname}</td>
-                <td className="mr-auto"></td>
+                <td className="mr-auto">
+                  <Container>
+                    <Row>
+                      <Verify props={items}></Verify>
+                      <ViewOneSkilled props={items}></ViewOneSkilled>
+                      <DeleteSkilledWorker props={items}></DeleteSkilledWorker>
+                    </Row>
+                  </Container>
+                </td>
               </tr>
             );
           })}

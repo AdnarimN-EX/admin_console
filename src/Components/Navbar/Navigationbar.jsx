@@ -42,7 +42,7 @@ function Navigationbar() {
                   title={admin.username}
                   menuVariant="dark"
                 >
-                  <NavDropdown.Item as={Link} to="/accountskill">
+                  <NavDropdown.Item as={Link} to="/accountSetting">
                     Account Settings
                   </NavDropdown.Item>
                   <NavDropdown.Item as={Link} to="/profileskilled">

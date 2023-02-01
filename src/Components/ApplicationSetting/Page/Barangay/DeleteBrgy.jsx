@@ -3,21 +3,21 @@ import { Button, Modal } from 'react-bootstrap';
 import { url } from '../../../../Data/Url';
 import { useAuthContext } from '../../../../Hooks/useAuthContext';
 
-export default function DeleteSkill(props) {
+export default function DeleteBrgy(props) {
   const { admin } = useAuthContext();
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
 
   const handleDelete = (e) => {
-    deleteAdmin();
+    deleteBarangay();
     handleClose();
   };
   const handleShow = () => setShow(true);
 
-  const deleteAdmin = async () => {
+  const deleteBarangay = async () => {
     const response = await fetch(
-      `${url}/api/adminSkill/delete/${props.props._id}`,
+      `${url}/api/barangay/delete/${props.props._id}`,
       {
         method: 'DELETE',
         headers: {
@@ -35,7 +35,6 @@ export default function DeleteSkill(props) {
       alert('Fail');
     }
   };
-
   return (
     <>
       <Button variant="danger" onClick={handleShow}>
@@ -46,7 +45,7 @@ export default function DeleteSkill(props) {
         <Modal.Header closeButton>
           <Modal.Title>Delete</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Delete this Skill?</Modal.Body>
+        <Modal.Body>Delete this Barangay?</Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={handleDelete}>
             CONFIRM

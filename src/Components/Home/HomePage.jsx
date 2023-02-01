@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, Col, Container, Nav, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 import { useAuthContext } from '../../Hooks/useAuthContext';
 
 import './home.css';
@@ -19,33 +19,73 @@ export default function HomePage() {
                   <Card>
                     <Card.Header>Skilled Workers</Card.Header>
                     <Card.Body>
-                      <Card.Title>Special title treatment</Card.Title>
                       <Card.Text>View and Verify Skilled Workers</Card.Text>
                       <Button variant="primary" as={Link} to="/viewSkilled">
-                        View
+                        View Information
                       </Button>
                     </Card.Body>
                   </Card>
                 </Col>
                 <Col>
                   <Card>
-                    <Card.Header>Clients</Card.Header>
+                    <Card.Header>Skilled Workers Experience</Card.Header>
                     <Card.Body>
-                      <Card.Title>Special title treatment</Card.Title>
-                      <Card.Text>Check Clients Information</Card.Text>
-                      <Button variant="primary" as={Link} to="/viewClient">
-                        View
+                      <Card.Text>View and Verify Experience</Card.Text>
+                      <Button
+                        variant="primary"
+                        as={Link}
+                        to="/viewSkilledExperience"
+                      >
+                        View Experience
                       </Button>
                     </Card.Body>
                   </Card>
                 </Col>
+                <Col>
+                  <Card>
+                    <Card.Header>Skilled Workers Certificate</Card.Header>
+                    <Card.Body>
+                      <Card.Text>View and Verify Certificate</Card.Text>
+                      <Button
+                        variant="primary"
+                        as={Link}
+                        to="/viewSkilledCertificate"
+                      >
+                        View Certificate
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                </Col>
+                <Col>
+                  <Card>
+                    <Card.Header>Skilled Workers Bill</Card.Header>
+                    <Card.Body>
+                      <Card.Text>View and Verify Bill</Card.Text>
+                      <Button variant="primary" as={Link} to="/viewSkilledBill">
+                        View Bills
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                </Col>
+                <Row>
+                  <Col>
+                    <Card>
+                      <Card.Header>Clients</Card.Header>
+                      <Card.Body>
+                        <Card.Text>Check Clients Information</Card.Text>
+                        <Button variant="primary" as={Link} to="/viewClient">
+                          View Information
+                        </Button>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                </Row>
               </Row>
               <Row>
                 <Col>
                   <Card>
                     <Card.Header>KASAW-APP Settings</Card.Header>
                     <Card.Body>
-                      <Card.Title>Special title treatment</Card.Title>
                       <Card.Text>Change Options Settings</Card.Text>
                       <Button variant="primary" as={Link} to="/appsetting">
                         Settings
@@ -55,10 +95,9 @@ export default function HomePage() {
                 </Col>
                 <Col>
                   <Card>
-                    <Card.Header>KASAW-APP Add Sub Admin</Card.Header>
+                    <Card.Header>Add Sub Admin</Card.Header>
                     <Card.Body>
-                      <Card.Title>Special title treatment</Card.Title>
-                      <Card.Text>Add New Admins.</Card.Text>
+                      <Card.Text>Add New Admins</Card.Text>
                       <Button variant="primary" as={Link} to="/adminCreate">
                         Sign Up
                       </Button>
@@ -67,11 +106,21 @@ export default function HomePage() {
                 </Col>
                 <Col>
                   <Card>
-                    <Card.Header>KASAW-APP Role Setting</Card.Header>
+                    <Card.Header>Admin Info Update</Card.Header>
                     <Card.Body>
-                      <Card.Title>Special title treatment</Card.Title>
                       <Card.Text>Change Role Setting of Admin.</Card.Text>
                       <Button variant="primary" as={Link} to="/viewAllAdmin">
+                        Information Setting
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                </Col>
+                <Col>
+                  <Card>
+                    <Card.Header>Admin Role Update</Card.Header>
+                    <Card.Body>
+                      <Card.Text>Change Role Setting of Admin.</Card.Text>
+                      <Button variant="primary" as={Link} to="/roleSettings">
                         Role Setting
                       </Button>
                     </Card.Body>

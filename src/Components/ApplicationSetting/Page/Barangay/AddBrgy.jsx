@@ -4,13 +4,16 @@ import { url } from '../../../../Data/Url';
 import { useAuthContext } from '../../../../Hooks/useAuthContext';
 import DeleteSkill from '../Skills/DeleteSkill';
 import EditSkill from '../Skills/EditSkill';
+import DeleteBrgy from './DeleteBrgy';
+import EditBrgy from './EditBrgy';
 
 export default function AddBrgy() {
   const { admin } = useAuthContext();
   const [city, setCity] = useState([]);
-  const [city_id, setCityID] = useState();
+  const [city_id, setCityID] = useState('');
   const [barangay, setBarangay] = useState('');
   const [barangayList, setBarangayList] = useState([]);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const dataFetchCity = async () => {
@@ -25,10 +28,11 @@ export default function AddBrgy() {
         setCity(json);
       }
       if (!response.ok) {
+        setError(json.messg);
       }
     };
     dataFetchCity();
-  }, [admin.token, admin]);
+  }, [admin.token]);
 
   useEffect(() => {
     const dataFetchBrgyList = async () => {
@@ -46,6 +50,7 @@ export default function AddBrgy() {
         setBarangayList(json);
       }
       if (!response.ok) {
+        setError(json.messg);
       }
     };
     dataFetchBrgyList();
@@ -88,7 +93,6 @@ export default function AddBrgy() {
               onChange={(e) => setCityID(e.target.value)}
               size="sm"
             >
-              <option>Select Here</option>;
               {city.map((items, index) => {
                 return (
                   <option key={index} value={items._id}>
@@ -108,13 +112,14 @@ export default function AddBrgy() {
               required
             ></Form.Control>
           </Form.Group>
-          <div className="btn-center">
+          <div className="text-center">
             <Button type="submit">Add New Barangay</Button>
           </div>
         </Form>
       </Container>
       <Container className="text-center">
         <h2>List of Barangay</h2>
+        {<h2 className="danger">{error}</h2>}
         <Row>
           {barangayList.map((items, index) => (
             <Col sm={6} md={6} lg={6} className="mb-3">
@@ -123,8 +128,8 @@ export default function AddBrgy() {
                 <Card.Body>
                   <p>City: {items.city_id.city}</p>
                   <div className="mr-auto">
-                    <EditSkill props={items}></EditSkill>
-                    <DeleteSkill props={items}></DeleteSkill>
+                    <EditBrgy props={items}></EditBrgy>
+                    <DeleteBrgy props={items}></DeleteBrgy>
                   </div>
                 </Card.Body>
               </Card>

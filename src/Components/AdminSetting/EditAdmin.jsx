@@ -21,7 +21,7 @@ export default function EditAdmin(props) {
 
   const updateAdmin = async () => {
     const response = await fetch(
-      `${url}/api/admin/update/adminInfoo/${props.props._id}`,
+      `${url}/api/admin/update/adminInfo/${props.props._id}`,
       {
         method: 'PATCH',
         headers: {
@@ -33,7 +33,7 @@ export default function EditAdmin(props) {
     );
 
     if (response.ok) {
-      alert('Created');
+      alert('Update');
     }
     if (!response.ok) {
       alert('Fail');
@@ -49,7 +49,7 @@ export default function EditAdmin(props) {
   return (
     <>
       <Button variant="warning" onClick={handleShow}>
-        Update
+        Update Information
       </Button>
 
       <Modal show={show} onHide={handleClose}>
