@@ -19,7 +19,7 @@ export default function DeleteSkilledWorker({ props }) {
     const response = await fetch(
       `${url}/api/admin/delete/Skilled/${props._id}`,
       {
-        method: 'DELETE',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${admin.token}`,

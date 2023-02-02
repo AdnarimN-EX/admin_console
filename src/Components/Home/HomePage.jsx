@@ -108,7 +108,7 @@ export default function HomePage() {
                   <Card>
                     <Card.Header>Admin Info Update</Card.Header>
                     <Card.Body>
-                      <Card.Text>Change Role Setting of Admin.</Card.Text>
+                      <Card.Text>Change Admin Information</Card.Text>
                       <Button variant="primary" as={Link} to="/viewAllAdmin">
                         Information Setting
                       </Button>
@@ -119,7 +119,7 @@ export default function HomePage() {
                   <Card>
                     <Card.Header>Admin Role Update</Card.Header>
                     <Card.Body>
-                      <Card.Text>Change Role Setting of Admin.</Card.Text>
+                      <Card.Text>Change Role Setting of Admin</Card.Text>
                       <Button variant="primary" as={Link} to="/roleSettings">
                         Role Setting
                       </Button>

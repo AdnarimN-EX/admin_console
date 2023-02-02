@@ -15,7 +15,7 @@ export default function AdminDeleteAccount() {
 
   const deleteAccountAdmin = async () => {
     const response = await fetch(`${url}/api/admin/delete/oneAdminInfo`, {
-      method: 'DELETE',
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${admin.token}`,
@@ -24,7 +24,7 @@ export default function AdminDeleteAccount() {
     });
     const json = await response.json();
     if (response.ok) {
-      alert('Password Updated');
+      alert('Account Deleted');
     } else {
       setError(json.error);
     }

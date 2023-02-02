@@ -20,7 +20,7 @@ export default function DeleteAdmin(props) {
     const response = await fetch(
       `${url}/api/admin/delete/adminInfo/${props.props._id}`,
       {
-        method: 'DELETE',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${admin.token}`,

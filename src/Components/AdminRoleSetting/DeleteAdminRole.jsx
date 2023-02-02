@@ -18,7 +18,7 @@ export default function DeleteAdminRole(props) {
     const response = await fetch(
       `${url}/api/roleCapability/delete/${props.props._id}`,
       {
-        method: 'DELETE',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${admin.token}`,

@@ -19,7 +19,7 @@ export default function DeleteSkill(props) {
     const response = await fetch(
       `${url}/api/adminSkill/delete/${props.props._id}`,
       {
-        method: 'DELETE',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${admin.token}`,
