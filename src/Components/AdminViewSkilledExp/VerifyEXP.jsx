@@ -42,7 +42,7 @@ function VerifyEXP({ props }) {
   return (
     <>
       <Button variant="outline-success" onClick={handleShow}>
-        ID Verify
+        Experience Verify
       </Button>
 
       <Modal show={show} onHide={handleClose}>

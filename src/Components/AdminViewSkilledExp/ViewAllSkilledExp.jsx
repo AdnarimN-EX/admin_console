@@ -7,6 +7,7 @@ import SkilledExperienceTable from './Sub/SkilledExperienceTable';
 export default function ViewAllSkilledExp() {
   const { admin } = useAuthContext();
   const [expList, setExpList] = useState([]);
+  const [skilled_id, setSkiled_Id] = useState();
   const [error, setError] = useState('');
 
   const token = admin.token;
@@ -31,6 +32,10 @@ export default function ViewAllSkilledExp() {
     };
     dataFetchAdmin();
   }, [token]);
+
+  console.log('hello');
+  console.log(expList);
+
   return (
     <Container>
       <h1>Skilled Experience List</h1>
