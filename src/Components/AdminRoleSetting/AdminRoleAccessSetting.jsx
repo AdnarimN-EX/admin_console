@@ -33,14 +33,14 @@ export default function AdminRoleAccessSetting() {
       <Container className="btn-group">
         <ButtonToolbar aria-label="Toolbar with button groups">
           <ButtonGroup aria-label="First group" className="text-center">
-            <Button variant="primary" onClick={AddRoleAndAcc}>
-              Add Role and Access Name
-            </Button>
             <Button variant="primary" onClick={addRoles}>
               Add Role
             </Button>
+            <Button variant="primary" onClick={AddRoleAndAcc}>
+              Add Role and Access
+            </Button>
             <Button variant="primary" onClick={viewRoles}>
-              View Roles
+              View Roles and Access
             </Button>
           </ButtonGroup>
         </ButtonToolbar>

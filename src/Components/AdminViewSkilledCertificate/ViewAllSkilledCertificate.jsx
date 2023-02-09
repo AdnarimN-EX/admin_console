@@ -30,7 +30,7 @@ export default function ViewAllSkilledCertificate() {
   }, [token]);
   return (
     <Container>
-      <h1>Skilled Experience List</h1>
+      <h1>Skilled Certificate List</h1>
       {<p>{error}</p>}
 
       <div className="text-center">
