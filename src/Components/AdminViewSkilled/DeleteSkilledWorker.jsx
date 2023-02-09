@@ -6,6 +6,7 @@ import { useAuthContext } from '../../Hooks/useAuthContext';
 export default function DeleteSkilledWorker({ props }) {
   const { admin } = useAuthContext();
   const [show, setShow] = useState(false);
+  const [error, setError] = useState('');
 
   const handleClose = () => setShow(false);
 
@@ -27,12 +28,13 @@ export default function DeleteSkilledWorker({ props }) {
         body: JSON.stringify({}),
       }
     );
-
+    const json = await response.json();
     if (response.ok) {
-      alert('Delete');
+      alert(json.error);
+      setError('Success');
     }
     if (!response.ok) {
-      alert('Fail');
+      setError(json.error);
     }
   };
 
@@ -54,6 +56,7 @@ export default function DeleteSkilledWorker({ props }) {
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
+          <div className="text-center">{error}</div>
         </Modal.Footer>
       </Modal>
     </>
