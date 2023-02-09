@@ -30,8 +30,7 @@ export default function DeleteSkilledWorker({ props }) {
     );
     const json = await response.json();
     if (response.ok) {
-      alert(json.error);
-      setError('Success');
+      alert('Success');
     }
     if (!response.ok) {
       setError(json.error);
