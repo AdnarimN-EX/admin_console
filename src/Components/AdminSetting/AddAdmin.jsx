@@ -114,7 +114,7 @@ export default function AddAdmin() {
           <Form.Group className="mb-2">
             <Form.Label>Contact *</Form.Label>
             <Form.Control
-              type="text"
+              type="number"
               id="newContact"
               value={contact}
               onChange={(e) => setCon(e.target.value)}

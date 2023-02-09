@@ -99,7 +99,7 @@ export default function AdminAccounInfo() {
             <Form.Control
               id="contactNo"
               size="sm"
-              type="text"
+              type="number"
               defaultValue={contact}
               onChange={(e) => setContact(e.target.value)}
             ></Form.Control>
