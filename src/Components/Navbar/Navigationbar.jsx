@@ -22,7 +22,7 @@ function Navigationbar() {
         <Navbar.Brand>KASAW-APP ADMIN</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
+          <Nav className="mr-auto">
             {!admin && (
               <>
                 <Nav.Link as={Link} to="/">
@@ -31,7 +31,7 @@ function Navigationbar() {
               </>
             )}
           </Nav>
-          <Nav className="me-auto">
+          <Nav className="mr-auto">
             {admin && (
               <>
                 <Nav.Link as={Link} to="/">
